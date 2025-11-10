@@ -1,0 +1,21 @@
+{
+  "name": "jrdriving-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Plateforme jrdriving - convoyage automobile (frontend, backend, automatisations)",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "install:all": "npm install --workspaces",
+    "dev": "concurrently \"npm run dev --workspace backend\" \"npm run dev --workspace frontend\"",
+    "build": "npm run build --workspace backend && npm run build --workspace frontend",
+    "lint": "npm run lint --workspace backend && npm run lint --workspace frontend",
+    "format": "npm run format --workspace backend && npm run format --workspace frontend",
+    "start": "npm run start --workspace backend"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

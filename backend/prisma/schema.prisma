@@ -1,0 +1,207 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  MANAGER
+  DRIVER
+  CLIENT
+}
+
+enum MissionStatus {
+  PENDING
+  ASSIGNED
+  IN_PROGRESS
+  COMPLETED
+  CANCELED
+}
+
+enum QuoteStatus {
+  NEW
+  IN_REVIEW
+  ACCEPTED
+  REJECTED
+}
+
+enum MissionEventType {
+  CREATED
+  DRIVER_ASSIGNED
+  PICKUP_COMPLETED
+  DELIVERY_COMPLETED
+  STATUS_UPDATED
+  DOCUMENT_GENERATED
+  EXPENSE_REPORTED
+}
+
+model User {
+  id                 String                @id @default(cuid())
+  email              String                @unique
+  passwordHash       String
+  role               UserRole              @default(CLIENT)
+  firstName          String
+  lastName           String
+  phone              String?
+  company            String?
+  createdAt          DateTime              @default(now())
+  updatedAt          DateTime              @updatedAt
+  driverProfile      DriverProfile?
+  clientProfile      ClientProfile?
+  refreshTokens      RefreshToken[]
+  passwordResetTokens PasswordResetToken[]
+  notifications      Notification[]
+  missionsAssigned   Mission[]             @relation("AssignedDriver")
+  missionsManaged    Mission[]             @relation("MissionManager")
+}
+
+model DriverProfile {
+  id                String         @id @default(cuid())
+  licenseNumber     String         @unique
+  licenseExpiry     DateTime
+  vehiclePreferences String?
+  userId            String         @unique
+  user              User           @relation(fields: [userId], references: [id])
+  missions          Mission[]      @relation("DriverProfileMissions")
+  expenses          Expense[]
+  documents         Document[]
+}
+
+model ClientProfile {
+  id               String      @id @default(cuid())
+  companyName      String?
+  vatNumber        String?
+  billingAddress   String?
+  userId           String      @unique
+  user             User        @relation(fields: [userId], references: [id])
+  missions         Mission[]   @relation("ClientProfileMissions")
+  quotes           QuoteRequest[]
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model QuoteRequest {
+  id              String      @id @default(cuid())
+  requesterId     String?
+  requester       ClientProfile? @relation(fields: [requesterId], references: [id])
+  fullName        String
+  company         String?
+  email           String
+  phone           String?
+  vehicleType     String
+  pickupAddress   String
+  dropoffAddress  String
+  desiredDate     DateTime
+  additionalNotes String?
+  status          QuoteStatus @default(NEW)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  mission         Mission?
+  attachments     Document[]
+}
+
+model Mission {
+  id               String          @id @default(cuid())
+  reference        String          @unique
+  clientId         String?
+  client           ClientProfile?  @relation("ClientProfileMissions", fields: [clientId], references: [id])
+  driverProfileId  String?
+  driverProfile    DriverProfile?  @relation("DriverProfileMissions", fields: [driverProfileId], references: [id])
+  managerId        String?
+  manager          User?           @relation("MissionManager", fields: [managerId], references: [id])
+  vehicleType      String
+  vehiclePlate     String?
+  pickupAddress    String
+  dropoffAddress   String
+  pickupDate       DateTime
+  deliveryDate     DateTime?
+  status           MissionStatus   @default(PENDING)
+  distanceKm       Float?
+  estimatedPrice   Decimal?        @db.Decimal(10, 2)
+  actualPrice      Decimal?        @db.Decimal(10, 2)
+  notes            String?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  quoteId          String?
+  quote            QuoteRequest?   @relation(fields: [quoteId], references: [id])
+  events           MissionEvent[]
+  expenses         Expense[]
+  documents        Document[]
+}
+
+model MissionEvent {
+  id          String            @id @default(cuid())
+  missionId   String
+  mission     Mission           @relation(fields: [missionId], references: [id])
+  type        MissionEventType
+  message     String
+  metadata    Json?
+  createdAt   DateTime          @default(now())
+}
+
+model Expense {
+  id            String        @id @default(cuid())
+  missionId     String
+  mission       Mission       @relation(fields: [missionId], references: [id])
+  driverProfileId String
+  driverProfile DriverProfile @relation(fields: [driverProfileId], references: [id])
+  label         String
+  amount        Decimal       @db.Decimal(10, 2)
+  incurredAt    DateTime
+  receipt       Document?
+  createdAt     DateTime      @default(now())
+}
+
+model Document {
+  id            String        @id @default(cuid())
+  fileName      String
+  fileType      String
+  filePath      String
+  uploadedAt    DateTime      @default(now())
+  missionId     String?
+  mission       Mission?      @relation(fields: [missionId], references: [id])
+  driverProfileId String?
+  driverProfile DriverProfile? @relation(fields: [driverProfileId], references: [id])
+  quoteId       String?
+  quote         QuoteRequest? @relation(fields: [quoteId], references: [id])
+}
+
+model Notification {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  title       String
+  body        String
+  read        Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model IntegrationLog {
+  id          String   @id @default(cuid())
+  source      String
+  event       String
+  payload     Json?
+  status      String
+  createdAt   DateTime @default(now())
+}

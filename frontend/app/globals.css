@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply bg-slate-50 text-slate-900 font-sans;
+}
+
+a {
+  @apply text-accent hover:text-orange-500 transition-colors;
+}
+
+.button-primary {
+  @apply inline-flex items-center justify-center rounded-md bg-primary text-white px-6 py-3 font-semibold shadow hover:bg-primary-light transition;
+}
+
+.button-secondary {
+  @apply inline-flex items-center justify-center rounded-md border border-primary text-primary px-6 py-3 font-semibold hover:bg-primary hover:text-white transition;
+}
