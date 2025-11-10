@@ -1,6 +1,6 @@
 import argon2 from 'argon2';
 import { addHours, addDays, isAfter } from 'date-fns';
-import { Prisma, UserRole } from '@prisma/client';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import prisma from '../config/prisma.js';
 import {
   generateAccessToken,
@@ -11,6 +11,7 @@ import {
 import { sendMail } from '../utils/email.js';
 import env from '../config/env.js';
 import { logger } from '../utils/logger.js';
+import type { UserRoleValue } from '../types/enums.js';
 
 export const registerUser = async (data: {
   email: string;
@@ -19,7 +20,7 @@ export const registerUser = async (data: {
   lastName: string;
   phone?: string;
   company?: string;
-  role?: UserRole;
+  role?: UserRoleValue;
 }) => {
   const passwordHash = await argon2.hash(data.password);
 
@@ -47,8 +48,8 @@ export const registerUser = async (data: {
     });
 
     return user;
-  } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+  } catch (error: unknown) {
+    if (error instanceof PrismaClientKnownRequestError && error.code === 'P2002') {
       throw new Error('Un compte existe déjà avec cet email');
     }
     logger.error('Erreur création utilisateur', error);
