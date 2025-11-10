@@ -25,20 +25,24 @@ const modules = [
 
 export function PlatformOverview() {
   return (
-    <section className="bg-white py-20">
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-3xl font-bold text-primary">Une plateforme opérationnelle, pensée pour la performance</h2>
-          <p className="mt-3 text-slate-600">
-            De la prise de commande à la facturation, jrdriving automatise chaque étape et s’intègre à vos outils métiers.
+    <section className="section">
+      <div className="section-shell space-y-12">
+        <div className="mx-auto max-w-3xl text-center space-y-4">
+          <p className="section-eyebrow bg-orange-50 text-accent">Plateforme</p>
+          <h2 className="section-title">Une suite modulaire orientée performance opérationnelle</h2>
+          <p className="section-subtitle mx-auto">
+            De la prise de commande à la facturation, jrdriving automatise chaque étape, se connecte à vos outils métiers et offre une
+            vision consolidée de vos indicateurs clés.
           </p>
         </div>
-        <div className="mt-12 grid gap-6 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-2">
           {modules.map((module) => (
-            <div key={module.title} className="rounded-3xl border border-slate-200 bg-slate-50 p-8">
-              <module.icon className="h-10 w-10 text-accent" />
-              <h3 className="mt-4 text-xl font-semibold text-primary">{module.title}</h3>
-              <p className="mt-2 text-sm text-slate-600">{module.description}</p>
+            <div key={module.title} className="surface-card h-full bg-white/95">
+              <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                <module.icon className="h-6 w-6" />
+              </div>
+              <h3 className="mt-5 text-xl font-semibold text-primary">{module.title}</h3>
+              <p className="mt-3 text-sm text-slate-600">{module.description}</p>
             </div>
           ))}
         </div>

@@ -17,27 +17,30 @@ export function Navigation() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-slate-200">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <Link href="/" className="text-2xl font-bold text-primary">
-          jrdriving
+    <header className="site-header">
+      <div className="section-shell flex items-center justify-between py-4">
+        <Link href="/" className="flex items-center gap-2 text-2xl font-semibold text-primary">
+          <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-primary text-sm font-bold uppercase text-white shadow-lg shadow-primary/30">
+            jr
+          </span>
+          <span>jrdriving</span>
         </Link>
-        <nav className="hidden items-center gap-6 text-sm font-semibold text-slate-700 md:flex">
+        <nav className="hidden items-center gap-8 md:flex">
           {links.map((link) => (
-            <Link key={link.href} href={link.href} className="hover:text-accent">
+            <Link key={link.href} href={link.href} className="nav-link">
               {link.label}
             </Link>
           ))}
-          <Link href="/auth/login" className="button-secondary text-sm">
+          <Link href="/auth/login" className="button-secondary text-xs">
             Connexion
           </Link>
-          <Link href="/auth/register" className="button-primary text-sm">
+          <Link href="/auth/register" className="button-primary text-xs">
             Créer un compte
           </Link>
         </nav>
         <button
           type="button"
-          className="rounded-md border border-slate-200 p-2 text-slate-700 md:hidden"
+          className="inline-flex items-center rounded-full border border-slate-200/70 bg-white/90 p-2 text-slate-600 shadow-sm transition hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary/40 md:hidden"
           onClick={() => setOpen((prev) => !prev)}
           aria-label="Ouvrir le menu"
         >
@@ -45,17 +48,17 @@ export function Navigation() {
         </button>
       </div>
       {open && (
-        <div className="border-t border-slate-200 bg-white px-6 py-4 md:hidden">
-          <div className="flex flex-col gap-4">
+        <div className="border-t border-slate-200/60 bg-white/90 pb-6 pt-4 backdrop-blur md:hidden">
+          <div className="section-shell flex flex-col gap-4">
             {links.map((link) => (
-              <Link key={link.href} href={link.href} onClick={() => setOpen(false)}>
+              <Link key={link.href} href={link.href} className="nav-link" onClick={() => setOpen(false)}>
                 {link.label}
               </Link>
             ))}
-            <Link href="/auth/login" className="button-secondary text-sm" onClick={() => setOpen(false)}>
+            <Link href="/auth/login" className="button-secondary text-xs" onClick={() => setOpen(false)}>
               Connexion
             </Link>
-            <Link href="/auth/register" className="button-primary text-sm" onClick={() => setOpen(false)}>
+            <Link href="/auth/register" className="button-primary text-xs" onClick={() => setOpen(false)}>
               Créer un compte
             </Link>
           </div>

@@ -2,14 +2,21 @@ const partners = ['Renault Group', 'Arval', 'Europcar', 'AutoHero', 'Groupe Stel
 
 export function TrustBar() {
   return (
-    <section className="bg-white py-12">
-      <div className="mx-auto max-w-6xl px-6">
-        <h2 className="text-center text-sm font-semibold uppercase tracking-[0.3em] text-slate-500">
-          Ils nous font confiance
-        </h2>
-        <div className="mt-6 grid grid-cols-2 gap-6 text-center text-slate-500 md:grid-cols-5">
+    <section className="section">
+      <div className="section-shell">
+        <div className="text-center">
+          <p className="section-eyebrow bg-orange-50 text-accent">Ils nous font confiance</p>
+          <p className="section-subtitle mx-auto mt-4 max-w-3xl text-sm text-slate-600">
+            Réseaux de loueurs, groupes automobiles et partenaires mobilité utilisent jrdriving pour piloter leurs flux logistiques
+            en toute transparence.
+          </p>
+        </div>
+        <div className="mt-10 grid gap-4 text-slate-600 sm:grid-cols-3 md:grid-cols-5">
           {partners.map((partner) => (
-            <div key={partner} className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-6 text-sm font-semibold">
+            <div
+              key={partner}
+              className="flex items-center justify-center rounded-2xl border border-white/70 bg-white/80 px-4 py-5 text-sm font-semibold shadow-[0_15px_45px_-20px_rgba(15,23,42,0.25)]"
+            >
               {partner}
             </div>
           ))}

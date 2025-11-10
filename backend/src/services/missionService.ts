@@ -1,7 +1,11 @@
-import { MissionStatus, MissionEventType } from '@prisma/client';
 import prisma from '../config/prisma.js';
 import { missionCreationSchema, missionStatusSchema, assignDriverSchema } from '../utils/validation.js';
 import { logger } from '../utils/logger.js';
+import {
+  MissionEventType,
+  MissionStatus,
+  type MissionStatusValue
+} from '../types/enums.js';
 
 export const createMission = async (payload: unknown) => {
   const data = missionCreationSchema.parse(payload);
@@ -37,7 +41,7 @@ export const createMission = async (payload: unknown) => {
   return mission;
 };
 
-export const listMissions = async (filters?: { status?: MissionStatus; driverProfileId?: string; clientId?: string }) =>
+export const listMissions = async (filters?: { status?: MissionStatusValue; driverProfileId?: string; clientId?: string }) =>
   prisma.mission.findMany({
     where: {
       status: filters?.status,

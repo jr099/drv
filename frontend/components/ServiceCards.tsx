@@ -26,26 +26,30 @@ const services = [
 
 export function ServiceCards() {
   return (
-    <section className="bg-slate-50 py-20">
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div>
-            <h2 className="text-3xl font-bold text-primary">Des services de convoyage adaptés à chaque besoin</h2>
-            <p className="mt-2 max-w-2xl text-slate-600">
-              jrdriving combine expertise terrain et automatisations IA pour assurer une logistique fluide, traçable et sécurisée.
+    <section className="section">
+      <div className="section-shell space-y-12">
+        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div className="max-w-3xl space-y-4">
+            <p className="section-eyebrow bg-orange-50 text-accent">Services</p>
+            <h2 className="section-title">Des parcours de convoyage pensés pour chaque scenario</h2>
+            <p className="section-subtitle">
+              jrdriving combine expertise terrain et automatisations IA pour assurer une logistique fluide, traçable et sécurisée sur
+              toute la chaîne de valeur.
             </p>
           </div>
-          <Link href="/devis" className="button-primary w-fit">
+          <Link href="/devis" className="button-primary self-start md:self-auto">
             Demander un devis
           </Link>
         </div>
-        <div className="mt-12 grid gap-6 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
           {services.map((service) => (
-            <div key={service.title} className="group rounded-3xl border border-slate-200 bg-white p-8 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-              <service.icon className="h-10 w-10 text-accent" />
+            <div key={service.title} className="surface-card h-full bg-white/95">
+              <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-100/80 text-accent shadow-inner shadow-orange-200/40">
+                <service.icon className="h-6 w-6" />
+              </div>
               <h3 className="mt-6 text-xl font-semibold text-primary">{service.title}</h3>
               <p className="mt-3 text-sm text-slate-600">{service.description}</p>
-              <Link href="/devis" className="mt-6 inline-flex items-center text-sm font-semibold text-accent">
+              <Link href="/devis" className="mt-8 cta-link">
                 Demander un devis
               </Link>
             </div>

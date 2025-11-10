@@ -18,11 +18,13 @@ Solution complète de Galaxj Air Digital pour gérer le pôle convoyage "jrdrivi
 
 ## Variables d’environnement
 
-Copiez les fichiers `.env.example` et adaptez-les :
+Copiez le fichier `.env.example` fourni et adaptez-le :
 
 ```bash
 cp backend/.env.example backend/.env
 ```
+
+> Pour le frontend, créez si besoin un fichier `frontend/.env.local` contenant `NEXT_PUBLIC_API_URL`.
 
 | Variable | Description |
 | --- | --- |

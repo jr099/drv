@@ -4,20 +4,204 @@
 
 :root {
   color-scheme: light;
+  --brand-primary: #0f172a;
+  --brand-primary-soft: #1e293b;
+  --brand-accent: #f97316;
+  --brand-muted: #e2e8f0;
 }
 
 body {
-  @apply bg-slate-50 text-slate-900 font-sans;
+  @apply min-h-screen bg-slate-100 text-slate-900 font-sans antialiased;
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(15, 23, 42, 0.08), transparent 45%),
+    radial-gradient(circle at 90% 10%, rgba(249, 115, 22, 0.12), transparent 50%),
+    radial-gradient(circle at 50% 80%, rgba(15, 23, 42, 0.1), transparent 55%),
+    linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+  background-attachment: fixed;
+}
+
+main {
+  @apply relative z-10;
 }
 
 a {
-  @apply text-accent hover:text-orange-500 transition-colors;
+  @apply text-accent transition-colors duration-200 hover:text-orange-500;
 }
 
-.button-primary {
-  @apply inline-flex items-center justify-center rounded-md bg-primary text-white px-6 py-3 font-semibold shadow hover:bg-primary-light transition;
+::selection {
+  background: rgba(249, 115, 22, 0.25);
 }
 
-.button-secondary {
-  @apply inline-flex items-center justify-center rounded-md border border-primary text-primary px-6 py-3 font-semibold hover:bg-primary hover:text-white transition;
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-primary tracking-tight text-balance;
+  }
+
+  label {
+    @apply text-sm font-semibold text-slate-700;
+  }
+
+  input,
+  textarea,
+  select {
+    @apply w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm shadow-[0_1px_2px_rgba(15,23,42,0.06)] transition focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20;
+  }
+}
+
+@layer components {
+  .section {
+    @apply relative py-20;
+  }
+
+  .section::after {
+    content: '';
+    position: absolute;
+    inset: 15% auto auto 55%;
+    width: 360px;
+    height: 360px;
+    border-radius: 9999px;
+    background: radial-gradient(circle, rgba(249, 115, 22, 0.18), transparent 60%);
+    filter: blur(60px);
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .hero-section {
+    @apply overflow-hidden rounded-b-[3rem];
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.96) 0%, rgba(15, 23, 42, 0.92) 35%, rgba(30, 41, 59, 0.92) 100%);
+  }
+
+  .hero-section::before {
+    content: '';
+    position: absolute;
+    top: -18%;
+    right: -12%;
+    width: 420px;
+    height: 420px;
+    border-radius: 9999px;
+    background: radial-gradient(circle, rgba(249, 115, 22, 0.35), transparent 65%);
+    filter: blur(70px);
+    opacity: 0.7;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .hero-section::after {
+    inset: auto -15% -35% auto;
+    width: 520px;
+    height: 520px;
+    opacity: 0.6;
+  }
+
+  .cta-section {
+    @apply relative overflow-hidden rounded-3xl border border-white/50 shadow-[0_35px_90px_-35px_rgba(15,23,42,0.45)];
+    background: radial-gradient(circle at 10% 20%, rgba(249, 115, 22, 0.25), transparent 55%),
+      linear-gradient(130deg, rgba(15, 23, 42, 0.98) 0%, rgba(15, 23, 42, 0.92) 50%, rgba(30, 41, 59, 0.9) 100%);
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    inset: auto auto -40% -20%;
+    width: 480px;
+    height: 480px;
+    border-radius: 9999px;
+    background: radial-gradient(circle, rgba(249, 115, 22, 0.25), transparent 65%);
+    filter: blur(70px);
+    opacity: 0.7;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .cta-section::after {
+    display: none;
+  }
+
+  .section-shell {
+    @apply relative z-10 mx-auto w-full max-w-6xl px-6;
+  }
+
+  .section-eyebrow {
+    @apply inline-flex items-center rounded-full bg-orange-100/70 px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-accent;
+  }
+
+  .section-title {
+    @apply mt-4 text-3xl font-bold text-primary md:text-4xl;
+  }
+
+  .section-subtitle {
+    @apply mt-3 max-w-3xl text-base text-slate-600 md:text-lg;
+  }
+
+  .surface-card {
+    @apply rounded-3xl border border-white/60 bg-white/90 p-8 shadow-[0_24px_60px_-24px_rgba(15,23,42,0.35)] backdrop-blur transition duration-300;
+  }
+
+  .surface-card:hover {
+    @apply -translate-y-1 shadow-[0_30px_60px_-24px_rgba(15,23,42,0.45)];
+  }
+
+  .glass-card {
+    @apply rounded-3xl border border-white/30 bg-white/10 p-8 shadow-[0_25px_80px_-30px_rgba(15,23,42,0.75)] backdrop-blur-xl;
+  }
+
+  .site-header {
+    @apply sticky top-0 z-50 border-b border-white/60 bg-white/80 backdrop-blur-xl shadow-[0_18px_40px_-20px_rgba(15,23,42,0.35)];
+  }
+
+  .nav-link {
+    @apply relative text-sm font-semibold text-slate-600 transition duration-200 hover:text-primary focus-visible:text-primary;
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -0.35rem;
+    height: 2px;
+    width: 0;
+    background: rgba(15, 23, 42, 0.6);
+    transition: width 0.2s ease;
+  }
+
+  .nav-link:hover::after,
+  .nav-link:focus-visible::after {
+    width: 100%;
+  }
+
+  .stat-card {
+    @apply flex flex-col gap-2 rounded-2xl border border-white/20 bg-white/10 p-6 text-center shadow-[0_25px_70px_-30px_rgba(15,23,42,0.8)] backdrop-blur;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em];
+  }
+
+  .button-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-accent via-orange-500 to-orange-400 px-7 py-3 text-sm font-semibold uppercase tracking-wide text-white shadow-lg shadow-orange-500/30 transition duration-200 hover:shadow-orange-500/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400;
+  }
+
+  .button-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-primary/40 px-7 py-3 text-sm font-semibold uppercase tracking-wide text-primary transition duration-200 hover:border-primary hover:bg-primary hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary/60;
+  }
+
+  .cta-link {
+    @apply inline-flex items-center gap-2 text-sm font-semibold text-accent transition duration-200 hover:text-orange-500;
+  }
+
+  .data-pill {
+    @apply inline-flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
 }
